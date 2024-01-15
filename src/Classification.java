@@ -73,10 +73,10 @@ public class Classification {
         }
 
         //Chargement des mots de culture en mémoire
-        Categorie culture = new Categorie("Culture");
-        culture.initLexique("./CULTURE.txt");
+        Categorie envSciences = new Categorie("Environment-sciences");
+        envSciences.initLexique("./ENVIRONNEMENT-SCIENCES.txt");
 
-        for (PaireChaineEntier paire : culture.getLexique()) {
+        for (PaireChaineEntier paire : envSciences.getLexique()) {
             System.out.println(paire.getChaine() + " : " + paire.getEntier());
         }
 
@@ -85,8 +85,11 @@ public class Classification {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Entrez une chaine : ");
         String chaine = scanner.nextLine();
-        System.out.println("force : " + UtilitairePaireChaineEntier.entierPourChaine(culture.getLexique(), chaine));
+        System.out.println("force : " + UtilitairePaireChaineEntier.entierPourChaine(envSciences.getLexique(), chaine));
 
+        // test de score
+        System.out.println("-----------------------------------------------");
+        System.out.println("score de la premiere depeche : " + envSciences.score(depeches.get(0)));
 
     }
 
