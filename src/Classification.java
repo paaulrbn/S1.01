@@ -43,15 +43,22 @@ public class Classification {
 
 
     public static void classementDepeches(ArrayList<Depeche> depeches, ArrayList<Categorie> categories, String nomFichier) {
-        //qui pour chacune des dépêches de depeches, calcule le score pour chaque catégorie de categories et
-        //écrit dans le fichier de nom nomFichier, le nom de la catégorie ayant le plus grand score ainsi que les
-        //pourcentages conformément au format attendu pour les fichiers réponses (voir ci-dessus). Prenez exemple sur
-        //la classe ExempleEcritureFichier pour l’écriture dans un fichier.
+        // Pour chacune des dépêches de depeches, calcule le score pour chaque catégorie de categories et
+        // écrit dans le fichier de nom nomFichier, le nom de la catégorie ayant le plus grand score ainsi que les
+        // pourcentages conformément au format attendu pour les fichiers réponses (voir ci-dessus). Prenez exemple sur
+        // la classe ExempleEcritureFichier pour l’écriture dans un fichier.
+
+        int envScience = 0;
+        int culture = 0;
+        int economie = 0;
+        int politique = 0;
+        int sports = 0;
 
         try {
             FileWriter file = new FileWriter(nomFichier);
             for (Depeche depeche : depeches) {
                 ArrayList<PaireChaineEntier> scoreDepeche = new ArrayList<>();
+
 
                 for (int i = 0; i < 5; i++) {
                     scoreDepeche.add(new PaireChaineEntier(categories.get(i).getNom(), categories.get(i).score(depeche)));
@@ -59,9 +66,32 @@ public class Classification {
 
                 file.write(depeche.getId() + " : ");
                 file.write(UtilitairePaireChaineEntier.chaineMax(scoreDepeche) + "\n");
+
+                if (depeche.getCategorie().equals("Environment-sciences") && UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equals("Environment-sciences")) {
+                    envScience++;
+                    System.out.println("envScience");
+                } else if (depeche.getCategorie().equals("Culture") && UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equals("Culture")) {
+                    culture++;
+                } else if (depeche.getCategorie().equals("Economie") && UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equals("Economie")) {
+                    economie++;
+                } else if (depeche.getCategorie().equals("Politique") && UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equals("Politique")) {
+                    politique++;
+                } else if (depeche.getCategorie().equals("Sports") && UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equals("Sports")) {
+                    sports++;
+                }
+
             }
 
-            //
+
+
+            file.write("ENVIRONNEMENT-SCIENCES: " + envScience/100f + "\n");
+            file.write("CULTURE: " + culture/100f + "\n");
+            file.write("ECONOMIE: " + economie/100f + "\n");
+            file.write("POLITIQUE: " + politique/100f + "\n");
+            file.write("SPORTS: " + sports/100f + "\n");
+
+
+
 
             file.close();
         } catch (IOException e) {
