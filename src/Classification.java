@@ -67,12 +67,8 @@ public class Classification {
                 file.write(depeche.getId() + " : ");
                 file.write(UtilitairePaireChaineEntier.chaineMax(scoreDepeche) + "\n");
 
-                System.out.println(depeche.getCategorie());
-                System.out.println(UtilitairePaireChaineEntier.chaineMax(scoreDepeche));
-                System.out.println();
                 if (depeche.getCategorie().equals("ENVIRONNEMENT-SCIENCES") && UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equals("ENVIRONNEMENT-SCIENCES")) {
                     envScience++;
-                    System.out.println("envScience");
                 } else if (depeche.getCategorie().equals("CULTURE") && UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equals("CULTURE")) {
                     culture++;
                 } else if (depeche.getCategorie().equals("ECONOMIE") && UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equals("ECONOMIE")) {
