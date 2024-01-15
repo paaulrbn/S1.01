@@ -72,25 +72,26 @@ public class Classification {
             depeches.get(i).afficher();
         }
 
-        //Chargement des mots de culture en mémoire
-        Categorie envSciences = new Categorie("Environment-sciences");
-        envSciences.initLexique("./ENVIRONNEMENT-SCIENCES.txt");
+        ArrayList<Categorie> categories = new ArrayList<>();
+        categories.add(new Categorie("Environment-sciences"));
+        categories.add(new Categorie("Culture"));
+        categories.add(new Categorie("Economie"));
+        categories.add(new Categorie("Politique"));
+        categories.add(new Categorie("Sport"));
 
-        for (PaireChaineEntier paire : envSciences.getLexique()) {
-            System.out.println(paire.getChaine() + " : " + paire.getEntier());
+        categories.get(0).initLexique("./ENVIRONNEMENT-SCIENCES.txt");
+        categories.get(1).initLexique("./CULTURE.txt");
+        categories.get(2).initLexique("./ECONOMIE.txt");
+        categories.get(3).initLexique("./POLITIQUE.txt");
+        categories.get(4).initLexique("./SPORT.txt");
+
+        ArrayList<PaireChaineEntier> scoreDepeche = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+            scoreDepeche.add(new PaireChaineEntier(categories.get(i).getNom(), categories.get(i).score(depeches.get(0))));
         }
 
-        // test de entierPourChaine
-        System.out.println("-----------------------------------------------");
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Entrez une chaine : ");
-        String chaine = scanner.nextLine();
-        System.out.println("force : " + UtilitairePaireChaineEntier.entierPourChaine(envSciences.getLexique(), chaine));
-
-        // test de score
-        System.out.println("-----------------------------------------------");
-        System.out.println("score de la premiere depeche : " + envSciences.score(depeches.get(0)));
-
+        System.out.println(UtilitairePaireChaineEntier.chaineMax(scoreDepeche));
     }
 
 

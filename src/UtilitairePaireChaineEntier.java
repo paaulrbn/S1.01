@@ -31,4 +31,9 @@ public class UtilitairePaireChaineEntier {
         return 0;
     }
 
+
+
+
+
+
 }
