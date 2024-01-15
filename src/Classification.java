@@ -67,31 +67,32 @@ public class Classification {
                 file.write(depeche.getId() + " : ");
                 file.write(UtilitairePaireChaineEntier.chaineMax(scoreDepeche) + "\n");
 
-                if (depeche.getCategorie().equals("Environment-sciences") && UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equals("Environment-sciences")) {
+                System.out.println(depeche.getCategorie());
+                System.out.println(UtilitairePaireChaineEntier.chaineMax(scoreDepeche));
+                System.out.println();
+                if (depeche.getCategorie().equals("ENVIRONNEMENT-SCIENCES") && UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equals("ENVIRONNEMENT-SCIENCES")) {
                     envScience++;
                     System.out.println("envScience");
-                } else if (depeche.getCategorie().equals("Culture") && UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equals("Culture")) {
+                } else if (depeche.getCategorie().equals("CULTURE") && UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equals("CULTURE")) {
                     culture++;
-                } else if (depeche.getCategorie().equals("Economie") && UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equals("Economie")) {
+                } else if (depeche.getCategorie().equals("ECONOMIE") && UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equals("ECONOMIE")) {
                     economie++;
-                } else if (depeche.getCategorie().equals("Politique") && UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equals("Politique")) {
+                } else if (depeche.getCategorie().equals("POLITIQUE") && UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equals("POLITIQUE")) {
                     politique++;
-                } else if (depeche.getCategorie().equals("Sports") && UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equals("Sports")) {
+                } else if (depeche.getCategorie().equals("SPORTS") && UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equals("SPORTS")) {
                     sports++;
                 }
 
             }
 
 
+            file.write("ENVIRONNEMENT-SCIENCES: " + (envScience/ 100f)*100 + "%\n");
+            file.write("CULTURE: " + (culture/ 100f)*100 + "%\n");
+            file.write("ECONOMIE: " + (economie/100f)*100 + "%\n");
+            file.write("POLITIQUE: " + (politique/100f)*100 + "%\n");
+            file.write("SPORTS: " + (sports/100f)*100 + "%\n");
 
-            file.write("ENVIRONNEMENT-SCIENCES: " + envScience/100f + "\n");
-            file.write("CULTURE: " + culture/100f + "\n");
-            file.write("ECONOMIE: " + economie/100f + "\n");
-            file.write("POLITIQUE: " + politique/100f + "\n");
-            file.write("SPORTS: " + sports/100f + "\n");
-
-
-
+            file.write("MOYENNE : " + ((envScience + culture + economie + politique + sports)/500f)*100 + "%\n");
 
             file.close();
         } catch (IOException e) {
@@ -129,11 +130,11 @@ public class Classification {
             depeches.get(i).afficher();
         }
 
-        ArrayList<Categorie> categories = new ArrayList<>(Arrays.asList(new Categorie("Environment-sciences"),
-                                                                        new Categorie("Culture"),
-                                                                        new Categorie("Economie"),
-                                                                        new Categorie("Politique"),
-                                                                        new Categorie("Sports")));
+        ArrayList<Categorie> categories = new ArrayList<>(Arrays.asList(new Categorie("ENVIRONNEMENT-SCIENCES"),
+                                                                        new Categorie("CULTURE"),
+                                                                        new Categorie("ECONOMIE"),
+                                                                        new Categorie("POLITIQUE"),
+                                                                        new Categorie("SPORTS")));
 
 
         categories.get(0).initLexique("./ENVIRONNEMENT-SCIENCES.txt");
