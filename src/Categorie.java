@@ -54,12 +54,12 @@ public class Categorie {
 
 
 
+        return 0;
 
-
-        for (String mot : mots) {
-            if (lexique.) {
-                score += UtilitairePaireChaineEntier.entierPourChaine(lexique, mot);
-            }
+        //for (String mot : mots) {
+        //    if (lexique.) {
+        //        score += UtilitairePaireChaineEntier.entierPourChaine(lexique, mot);
+        //    }
         }
 
     }
