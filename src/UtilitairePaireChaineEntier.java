@@ -22,6 +22,7 @@ public class UtilitairePaireChaineEntier {
     }
 
     public static String chaineMax(ArrayList<PaireChaineEntier> listePaires) {
+
         return "SPORTS";
     }
 
