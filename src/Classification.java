@@ -42,6 +42,11 @@ public class Classification {
 
 
     public static void classementDepeches(ArrayList<Depeche> depeches, ArrayList<Categorie> categories, String nomFichier) {
+
+
+
+
+
     }
 
 
