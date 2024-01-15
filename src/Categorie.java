@@ -52,14 +52,17 @@ public class Categorie {
         ArrayList<String> mots = d.getMots();
         int score = 0;
 
+        for (String mot : mots) {
+            for (PaireChaineEntier paireChaineEntier : lexique) {
+                if (mot.equals(paireChaineEntier.getChaine())) {
+                    score += paireChaineEntier.getEntier();
+                }
+            }
+        }
+
+        return score;
 
 
-        return 0;
-
-        //for (String mot : mots) {
-        //    if (lexique.) {
-        //        score += UtilitairePaireChaineEntier.entierPourChaine(lexique, mot);
-        //    }
         }
 
     }
