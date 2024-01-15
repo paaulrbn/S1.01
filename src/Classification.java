@@ -2,6 +2,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Classification {
@@ -42,9 +43,30 @@ public class Classification {
 
 
     public static void classementDepeches(ArrayList<Depeche> depeches, ArrayList<Categorie> categories, String nomFichier) {
+        //qui pour chacune des dépêches de depeches, calcule le score pour chaque catégorie de categories et
+        //écrit dans le fichier de nom nomFichier, le nom de la catégorie ayant le plus grand score ainsi que les
+        //pourcentages conformément au format attendu pour les fichiers réponses (voir ci-dessus). Prenez exemple sur
+        //la classe ExempleEcritureFichier pour l’écriture dans un fichier.
 
+        try {
+            FileWriter file = new FileWriter(nomFichier);
+            for (Depeche depeche : depeches) {
+                ArrayList<PaireChaineEntier> scoreDepeche = new ArrayList<>();
 
+                for (int i = 0; i < 5; i++) {
+                    scoreDepeche.add(new PaireChaineEntier(categories.get(i).getNom(), categories.get(i).score(depeche)));
+                }
 
+                file.write(depeche.getId() + " : ");
+                file.write(UtilitairePaireChaineEntier.chaineMax(scoreDepeche) + "\n");
+            }
+
+            //
+
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -77,12 +99,12 @@ public class Classification {
             depeches.get(i).afficher();
         }
 
-        ArrayList<Categorie> categories = new ArrayList<>();
-        categories.add(new Categorie("Environment-sciences"));
-        categories.add(new Categorie("Culture"));
-        categories.add(new Categorie("Economie"));
-        categories.add(new Categorie("Politique"));
-        categories.add(new Categorie("Sports"));
+        ArrayList<Categorie> categories = new ArrayList<>(Arrays.asList(new Categorie("Environment-sciences"),
+                                                                        new Categorie("Culture"),
+                                                                        new Categorie("Economie"),
+                                                                        new Categorie("Politique"),
+                                                                        new Categorie("Sports")));
+
 
         categories.get(0).initLexique("./ENVIRONNEMENT-SCIENCES.txt");
         categories.get(1).initLexique("./CULTURE.txt");
@@ -100,7 +122,7 @@ public class Classification {
 
 
 
-
+        classementDepeches(depeches, categories, "./fichier-sortie.txt");
 
 
     }
