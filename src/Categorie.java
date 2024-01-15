@@ -35,8 +35,8 @@ public class Categorie {
                 String thisLine = scanner.nextLine();
                 int indexSeparator = thisLine.indexOf(':');
 
-                String mot = thisLine.substring(0, indexSeparator - 1);
-                int force = Integer.parseInt(thisLine.substring(indexSeparator));
+                String mot = thisLine.substring(0, indexSeparator);
+                int force = Integer.parseInt(thisLine.substring(indexSeparator+1));
 
                 lexique.add(new PaireChaineEntier(mot, force));
             }
@@ -49,7 +49,19 @@ public class Categorie {
 
         //calcul du score d'une dépêche pour la catégorie
     public int score(Depeche d) {
-        return 0;
+        ArrayList<String> mots = d.getMots();
+        int score = 0;
+
+
+
+
+
+        for (String mot : mots) {
+            if (lexique.) {
+                score += UtilitairePaireChaineEntier.entierPourChaine(lexique, mot);
+            }
+        }
+
     }
 
 

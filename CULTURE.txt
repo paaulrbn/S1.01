@@ -1,13 +1,13 @@
 culture:3
 art:3
-Opéra:3
-Théâtre:3
+opéra:3
+théâtre:3
 film:3
 scénario:3
 peintre:3
 peinture:3
-César:3
-Concert:3
+césar:3
+concert:3
 exposition:3
 musée:3
 chorégraphe:2

@@ -1,7 +1,7 @@
 Sarkozy:3
 Royal:3
 Veil:3
-Shoah:3
+shoah:3
 maire:3
 socialiste:3
 ministre:3

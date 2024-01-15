@@ -72,7 +72,20 @@ public class Classification {
             depeches.get(i).afficher();
         }
 
+        //Chargement des mots de culture en mémoire
+        Categorie culture = new Categorie("Culture");
+        culture.initLexique("./CULTURE.txt");
 
+        for (PaireChaineEntier paire : culture.getLexique()) {
+            System.out.println(paire.getChaine() + " : " + paire.getEntier());
+        }
+
+        // test de entierPourChaine
+        System.out.println("-----------------------------------------------");
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Entrez une chaine : ");
+        String chaine = scanner.nextLine();
+        System.out.println("force : " + UtilitairePaireChaineEntier.entierPourChaine(culture.getLexique(), chaine));
 
 
     }
