@@ -77,13 +77,13 @@ public class Classification {
         categories.add(new Categorie("Culture"));
         categories.add(new Categorie("Economie"));
         categories.add(new Categorie("Politique"));
-        categories.add(new Categorie("Sport"));
+        categories.add(new Categorie("Sports"));
 
         categories.get(0).initLexique("./ENVIRONNEMENT-SCIENCES.txt");
         categories.get(1).initLexique("./CULTURE.txt");
         categories.get(2).initLexique("./ECONOMIE.txt");
         categories.get(3).initLexique("./POLITIQUE.txt");
-        categories.get(4).initLexique("./SPORT.txt");
+        categories.get(4).initLexique("./SPORTS.txt");
 
         ArrayList<PaireChaineEntier> scoreDepeche = new ArrayList<>();
 
@@ -91,9 +91,12 @@ public class Classification {
             scoreDepeche.add(new PaireChaineEntier(categories.get(i).getNom(), categories.get(i).score(depeches.get(0))));
         }
 
-        System.out.println(UtilitairePaireChaineEntier.chaineMax(scoreDepeche));
+        System.out.println("Catégorie pour la depeche 1 : " + UtilitairePaireChaineEntier.chaineMax(scoreDepeche));
+
+
+
+
+
+
     }
-
-
 }
-
