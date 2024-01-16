@@ -43,10 +43,6 @@ public class Classification {
 
 
     public static void classementDepeches(ArrayList<Depeche> depeches, ArrayList<Categorie> categories, String nomFichier) {
-        // Pour chacune des dépêches de depeches, calcule le score pour chaque catégorie de categories et
-        // écrit dans le fichier de nom nomFichier, le nom de la catégorie ayant le plus grand score ainsi que les
-        // pourcentages conformément au format attendu pour les fichiers réponses (voir ci-dessus). Prenez exemple sur
-        // la classe ExempleEcritureFichier pour l’écriture dans un fichier.
 
         int envScience = 0;
         int culture = 0;
@@ -132,15 +128,14 @@ public class Classification {
                 }
             }
         }
-
     }
 
     public static int poidsPourScore(int score) {
         if (score <= 1) {
             return 0;
-        } else if (score == 2) {
+        } else if (score < 4) {
             return 1;
-        } else if (score == 3) {
+        } else if (score < 6) {
             return 2;
         } else {
             return 3;
@@ -195,16 +190,6 @@ public class Classification {
         categories.get(2).initLexique("./ECONOMIE.txt");
         categories.get(3).initLexique("./POLITIQUE.txt");
         categories.get(4).initLexique("./SPORTS.txt");
-
-//        ArrayList<PaireChaineEntier> scoreDepeche = new ArrayList<>();
-//
-//        for (int i = 0; i < 5; i++) {
-//            scoreDepeche.add(new PaireChaineEntier(categories.get(i).getNom(), categories.get(i).score(depeches.get(0))));
-//        }
-//
-//        System.out.println("Catégorie pour la depeche 1 : " + UtilitairePaireChaineEntier.chaineMax(scoreDepeche));
-
-
 
 
 
