@@ -77,15 +77,20 @@ public class Classification {
                 file.write(depeche.getId() + " : ");
                 file.write(UtilitairePaireChaineEntier.chaineMax(scoreDepeche) + "\n");
 
-                if (depeche.getCategorie().equalsIgnoreCase("ENVIRONNEMENT-SCIENCES") && UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equalsIgnoreCase("ENVIRONNEMENT-SCIENCES")) {
+                if (depeche.getCategorie().equalsIgnoreCase("ENVIRONNEMENT-SCIENCES") &&
+                        UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equalsIgnoreCase("ENVIRONNEMENT-SCIENCES")) {
                     envScience++;
-                } else if (depeche.getCategorie().equalsIgnoreCase("CULTURE") && UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equalsIgnoreCase("CULTURE")) {
+                } else if (depeche.getCategorie().equalsIgnoreCase("CULTURE") &&
+                        UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equalsIgnoreCase("CULTURE")) {
                     culture++;
-                } else if (depeche.getCategorie().equalsIgnoreCase("ECONOMIE") && UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equalsIgnoreCase("ECONOMIE")) {
+                } else if (depeche.getCategorie().equalsIgnoreCase("ECONOMIE") &&
+                        UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equalsIgnoreCase("ECONOMIE")) {
                     economie++;
-                } else if (depeche.getCategorie().equalsIgnoreCase("POLITIQUE") && UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equalsIgnoreCase("POLITIQUE")) {
+                } else if (depeche.getCategorie().equalsIgnoreCase("POLITIQUE") &&
+                        UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equalsIgnoreCase("POLITIQUE")) {
                     politique++;
-                } else if (depeche.getCategorie().equalsIgnoreCase("SPORTS") && UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equalsIgnoreCase("SPORTS")) {
+                } else if (depeche.getCategorie().equalsIgnoreCase("SPORTS") &&
+                        UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equalsIgnoreCase("SPORTS")) {
                     sports++;
                 }
 
@@ -148,6 +153,7 @@ public class Classification {
             }
         }
         return c;
+
     }
 
     public static int poidsPourScore(int score) {

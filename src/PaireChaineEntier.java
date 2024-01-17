@@ -1,4 +1,4 @@
-public class PaireChaineEntier {
+public class PaireChaineEntier{
     private String chaine;
     private int entier;
 
@@ -11,5 +11,10 @@ public class PaireChaineEntier {
     public PaireChaineEntier(String chaine, int entier) {
         this.chaine = chaine;
         this.entier = entier;
+    }
+
+
+    public int compareTo(PaireChaineEntier paireChaineEntier) {
+        return this.chaine.compareTo(paireChaineEntier.getChaine());
     }
 }

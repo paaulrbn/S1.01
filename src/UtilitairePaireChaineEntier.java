@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class UtilitairePaireChaineEntier {
 
@@ -7,15 +6,27 @@ public class UtilitairePaireChaineEntier {
     public static int indicePourChaine(ArrayList<PaireChaineEntier> listePaires, String chaine) {
         /*  Retourne l’indice de chaine dans listePaires si chaine est présente et -1 sinon. */
 
-        int i = 0;
-        while (i < listePaires.size() && !Objects.equals(listePaires.get(i).getChaine(), chaine)) {
-            i++;
+        listePaires.sort(PaireChaineEntier::compareTo);
+
+        int debut = 0;
+        int fin = listePaires.size() - 1;
+        int milieu = (debut + fin) / 2;
+
+        while (debut <= fin && listePaires.get(milieu).getChaine().compareTo(chaine) != 0) {
+            if (listePaires.get(milieu).getChaine().compareTo(chaine) < 0) {
+                debut = milieu + 1;
+            } else {
+                fin = milieu - 1;
+            }
+            milieu = (debut + fin) / 2;
         }
-        if (i != listePaires.size()) {
-            return i;
+
+        if (debut <= fin) {
+            return milieu;
         } else {
             return -1;
         }
+
     }
 
 
@@ -57,7 +68,7 @@ public class UtilitairePaireChaineEntier {
         for (PaireChaineEntier paireChaineEntier : listePaires) {
             somme += paireChaineEntier.getEntier();
         }
-        return (float) somme / listePaires.size();
+        return somme / listePaires.size();
     }
 
 
