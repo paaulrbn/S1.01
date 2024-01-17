@@ -12,8 +12,4 @@ public class PaireChaineEntier {
         this.chaine = chaine;
         this.entier = entier;
     }
-
-
-
-
 }
