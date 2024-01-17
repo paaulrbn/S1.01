@@ -127,31 +127,27 @@ public class Classification {
         return resultat;
     }
 
-    public static void calculScores(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
+    public static int calculScores(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
         /*  Met à jour les scores des mots présents dans dictionnaire. Lorsqu'un mot présent dans
             dictionnaire apparaît dans une dépêche de depeches, son score est : décrémenté si la dépêche
             n'est pas dans la catégorie categorie et incrémenté si la dépêche est dans la catégorie categorie. */
 
+        int c = 0;
 
-        for (Depeche depeche : depeches) {
-            if (depeche.getCategorie().equalsIgnoreCase(categorie)) {
-                for (String mot : depeche.getMots()) {
-                    for (PaireChaineEntier paireChaineEntier : dictionnaire) {
-                        if (mot.equals(paireChaineEntier.getChaine())) {
-                            paireChaineEntier.setEntier(paireChaineEntier.getEntier() + 1);
-                        }
-                    }
-                }
-            } else {
-                for (String mot : depeche.getMots()) {
-                    for (PaireChaineEntier paireChaineEntier : dictionnaire) {
-                        if (mot.equals(paireChaineEntier.getChaine())) {
-                            paireChaineEntier.setEntier(paireChaineEntier.getEntier() - 1);
-                        }
+        for (Depeche depeche : depeches){
+            for(String mot : depeche.getMots()){
+                int index = UtilitairePaireChaineEntier.indicePourChaine(dictionnaire, mot);
+                if(index != -1){
+                    c++;
+                    if(depeche.getCategorie().equalsIgnoreCase(categorie)){
+                        dictionnaire.get(index).setEntier(dictionnaire.get(index).getEntier() + 1);
+                    }else{
+                        dictionnaire.get(index).setEntier(dictionnaire.get(index).getEntier() - 1);
                     }
                 }
             }
         }
+        return c;
     }
 
     public static int poidsPourScore(int score) {
@@ -175,7 +171,7 @@ public class Classification {
             résultant pour créer un fichier lexique en utilisant la fonction poidsPourScore. */
 
         ArrayList<PaireChaineEntier> dictionnaire = initDico(depeches, categorie);
-        calculScores(depeches, categorie, dictionnaire);
+        System.out.println(categorie + " : " + calculScores(depeches, categorie, dictionnaire));
 
         try {
             FileWriter file = new FileWriter(nomFichier);
@@ -195,12 +191,12 @@ public class Classification {
     public static void main(String[] args) {
 
         //Chargement des dépêches en mémoire
-        System.out.println("chargement des dépêches");
+//        System.out.println("chargement des dépêches");
         ArrayList<Depeche> depeches = lectureDepeches("./test.txt");
 
-        for (int i = 0; i < depeches.size(); i++) {
-            depeches.get(i).afficher();
-        }
+//        for (int i = 0; i < depeches.size(); i++) {
+//            depeches.get(i).afficher();
+//        }
 
         // Création de l'ArrayList avec les catégories
         ArrayList<Categorie> categories = new ArrayList<>(Arrays.asList(new Categorie("ENVIRONNEMENT-SCIENCES"),
