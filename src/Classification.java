@@ -42,6 +42,16 @@ public class Classification {
     }
 
 
+    public static int nbDepeche(ArrayList<Depeche> depeches, String categorie) {
+        int nb = 0;
+        for (Depeche depeche : depeches) {
+            if (depeche.getCategorie().equalsIgnoreCase(categorie)) {
+                nb++;
+            }
+        }
+        return nb;
+    }
+
     public static void classementDepeches(ArrayList<Depeche> depeches, ArrayList<Categorie> categories, String nomFichier) {
 
         int envScience = 0;
@@ -78,11 +88,11 @@ public class Classification {
             }
 
 
-            file.write("ENVIRONNEMENT-SCIENCES: " + (envScience/ 100f)*100 + "%\n");
-            file.write("CULTURE: " + (culture/ 100f)*100 + "%\n");
-            file.write("ECONOMIE: " + (economie/100f)*100 + "%\n");
-            file.write("POLITIQUE: " + (politique/100f)*100 + "%\n");
-            file.write("SPORTS: " + (sports/100f)*100 + "%\n");
+            file.write("ENVIRONNEMENT-SCIENCES: " + (envScience/ (float) nbDepeche(depeches, "ENVIRONNEMENT-SCIENCES"))*100 + "%\n");
+            file.write("CULTURE: " + (culture/ (float) nbDepeche(depeches, "CULTURE"))*100 + "%\n");
+            file.write("ECONOMIE: " + (economie/ (float) nbDepeche(depeches, "ECONOMIE"))*100 + "%\n");
+            file.write("POLITIQUE: " + (politique/ (float) nbDepeche(depeches, "POLITIQUE"))*100 + "%\n");
+            file.write("SPORTS: " + (sports/ (float) nbDepeche(depeches, "SPORTS"))*100 + "%\n");
 
             file.write("MOYENNE : " + ((envScience + culture + economie + politique + sports)/500f)*100 + "%\n");
 
@@ -96,11 +106,21 @@ public class Classification {
 
 
     public static ArrayList<PaireChaineEntier> initDico(ArrayList<Depeche> depeches, String categorie) {
+        /*
+            retourne une ArrayList<PaireChaineEntier> contenant tous les mots présents dans au
+            moins une dépêche de la catégorie categorie. Attention, même si le mot est présent plusieurs fois, il ne
+            doit apparaître qu’une fois dans la ArrayList retournée. Dans les entiers, nous stockerons les scores
+            associés à chaque mot et dans un premier temps, nous initialiserons ce score à 0.
+
+         */
+
         ArrayList<PaireChaineEntier> resultat = new ArrayList<>();
         for (Depeche depeche : depeches) {
             if (depeche.getCategorie().equalsIgnoreCase(categorie)) {
                 for (String mot : depeche.getMots()) {
-                    resultat.add(new PaireChaineEntier(mot, 0));
+                    if (UtilitairePaireChaineEntier.indicePourChaine(resultat, mot) == -1) {
+                        resultat.add(new PaireChaineEntier(mot, 0));
+                    }
                 }
             }
         }
