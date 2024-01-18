@@ -2,6 +2,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Categorie {
@@ -54,6 +55,7 @@ public class Categorie {
         ArrayList<String> mots = d.getMots();
         int score = 0;
 
+
         for (String mot : mots) {
             for (PaireChaineEntier paireChaineEntier : lexique) {
                 if (mot.equals(paireChaineEntier.getChaine())) {
@@ -61,6 +63,7 @@ public class Categorie {
                 }
             }
         }
+
         return score;
         }
     }

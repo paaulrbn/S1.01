@@ -67,34 +67,31 @@ public class Classification {
 
         try {
             FileWriter file = new FileWriter(nomFichier);
+
             for (Depeche depeche : depeches) {
                 ArrayList<PaireChaineEntier> scoreDepeche = new ArrayList<>();
-
 
                 for (int i = 0; i < 5; i++) {
                     scoreDepeche.add(new PaireChaineEntier(categories.get(i).getNom(), categories.get(i).score(depeche)));
                 }
 
-                file.write(depeche.getId() + " : ");
-                file.write(UtilitairePaireChaineEntier.chaineMax(scoreDepeche) + "\n");
+                String categorieCoresp = UtilitairePaireChaineEntier.chaineMax(scoreDepeche);
 
-                if (depeche.getCategorie().equalsIgnoreCase("ENVIRONNEMENT-SCIENCES") &&
-                        UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equalsIgnoreCase("ENVIRONNEMENT-SCIENCES")) {
-                    envScience++;
-                } else if (depeche.getCategorie().equalsIgnoreCase("CULTURE") &&
-                        UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equalsIgnoreCase("CULTURE")) {
-                    culture++;
-                } else if (depeche.getCategorie().equalsIgnoreCase("ECONOMIE") &&
-                        UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equalsIgnoreCase("ECONOMIE")) {
-                    economie++;
-                } else if (depeche.getCategorie().equalsIgnoreCase("POLITIQUE") &&
-                        UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equalsIgnoreCase("POLITIQUE")) {
-                    politique++;
-                } else if (depeche.getCategorie().equalsIgnoreCase("SPORTS") &&
-                        UtilitairePaireChaineEntier.chaineMax(scoreDepeche).equalsIgnoreCase("SPORTS")) {
-                    sports++;
+                file.write(depeche.getId() + " : " + categorieCoresp + "\n");
+
+                if (categorieCoresp.equalsIgnoreCase(depeche.getCategorie())) {
+                    if (categorieCoresp.equalsIgnoreCase("ENVIRONNEMENT-SCIENCES")) {
+                        envScience++;
+                    } else if (categorieCoresp.equalsIgnoreCase("CULTURE")) {
+                        culture++;
+                    } else if (categorieCoresp.equalsIgnoreCase("ECONOMIE")) {
+                        economie++;
+                    } else if (categorieCoresp.equalsIgnoreCase("POLITIQUE")) {
+                        politique++;
+                    } else if (categorieCoresp.equalsIgnoreCase("SPORTS")) {
+                        sports++;
+                    }
                 }
-
             }
 
             int pEnv = (int) (( (float) envScience/ nbDepeche(depeches, "ENVIRONNEMENT-SCIENCES"))*100);
@@ -228,17 +225,12 @@ public class Classification {
 
         ArrayList<Thread> threads = new ArrayList<>();
 
+        System.out.println("Nombre de comparaisons pour calculScores : ");
          threads.add(new Thread(() -> generationLexique(depeches, "ENVIRONNEMENT-SCIENCES", "ENVIRONNEMENT-SCIENCES.txt")));
          threads.add(new Thread(() -> generationLexique(depeches, "CULTURE", "CULTURE.txt")));
          threads.add(new Thread(() -> generationLexique(depeches, "ECONOMIE", "ECONOMIE.txt")));
          threads.add(new Thread(() -> generationLexique(depeches, "POLITIQUE", "POLITIQUE.txt")));
          threads.add(new Thread(() -> generationLexique(depeches, "SPORTS", "SPORTS.txt")));
-
-//        generationLexique(depeches, "ENVIRONNEMENT-SCIENCES", "ENVIRONNEMENT-SCIENCES.txt");
-//        generationLexique(depeches, "CULTURE", "CULTURE.txt");
-//        generationLexique(depeches, "ECONOMIE", "ECONOMIE.txt");
-//        generationLexique(depeches, "POLITIQUE", "POLITIQUE.txt");
-//        generationLexique(depeches, "SPORTS", "SPORTS.txt");
 
         for (Thread thread : threads) {
             thread.start();
@@ -250,6 +242,12 @@ public class Classification {
                 e.printStackTrace();
             }
         }
+
+//        generationLexique(depeches, "ENVIRONNEMENT-SCIENCES", "ENVIRONNEMENT-SCIENCES.txt");
+//        generationLexique(depeches, "CULTURE", "CULTURE.txt");
+//        generationLexique(depeches, "ECONOMIE", "ECONOMIE.txt");
+//        generationLexique(depeches, "POLITIQUE", "POLITIQUE.txt");
+//        generationLexique(depeches, "SPORTS", "SPORTS.txt");
 
 
         // Initialisation des lexiques pour chaque catégorie à partir des fichiers générée
