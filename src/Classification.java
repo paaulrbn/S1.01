@@ -180,9 +180,9 @@ public class Classification {
 
         if (score <= 0) {
             return 0;
-        } else if (score < 2) {
+        } else if (score < 7) {
             return 1;
-        } else if (score < 5) {
+        } else if (score < 12) {
             return 2;
         } else {
             return 3;
