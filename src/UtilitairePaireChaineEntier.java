@@ -6,8 +6,6 @@ public class UtilitairePaireChaineEntier {
     public static int indicePourChaine(ArrayList<PaireChaineEntier> listePaires, String chaine) {
         /*  Retourne l’indice de chaine dans listePaires si chaine est présente et -1 sinon. */
 
-        listePaires.sort(PaireChaineEntier::compareTo);
-
         int debut = 0;
         int fin = listePaires.size() - 1;
         int milieu = (debut + fin) / 2;

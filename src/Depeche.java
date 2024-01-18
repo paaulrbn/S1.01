@@ -23,6 +23,7 @@ public class Depeche {
         chaine = chaine.replace('\n', ' ');
         chaine = chaine.replace('.', ' ');
         chaine = chaine.replace(',', ' ');
+        chaine = chaine.replace(':', ' ');
         chaine = chaine.replace('\'', ' ');
         chaine = chaine.replace('\"', ' ');
         chaine = chaine.replace('(', ' ');

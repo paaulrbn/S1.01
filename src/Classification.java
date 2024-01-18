@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 public class Classification {
 
@@ -96,13 +97,18 @@ public class Classification {
 
             }
 
-            file.write("ENVIRONNEMENT-SCIENCES: " + (envScience/ (float) nbDepeche(depeches, "ENVIRONNEMENT-SCIENCES"))*100 + "%\n");
-            file.write("CULTURE: " + (culture/ (float) nbDepeche(depeches, "CULTURE"))*100 + "%\n");
-            file.write("ECONOMIE: " + (economie/ (float) nbDepeche(depeches, "ECONOMIE"))*100 + "%\n");
-            file.write("POLITIQUE: " + (politique/ (float) nbDepeche(depeches, "POLITIQUE"))*100 + "%\n");
-            file.write("SPORTS: " + (sports/ (float) nbDepeche(depeches, "SPORTS"))*100 + "%\n");
+            int pEnv = (int) (( (float) envScience/ nbDepeche(depeches, "ENVIRONNEMENT-SCIENCES"))*100);
+            int pCulture = (int) (( (float) culture/ nbDepeche(depeches, "CULTURE"))*100);
+            int pEconomie = (int) (( (float) economie/ nbDepeche(depeches, "ECONOMIE"))*100);
+            int pPolitique = (int) (( (float) politique/ nbDepeche(depeches, "POLITIQUE"))*100);
+            int pSports = (int) (( (float) sports/ nbDepeche(depeches, "SPORTS"))*100);
 
-            file.write("MOYENNE : " + ((envScience + culture + economie + politique + sports)/500f)*100 + "%\n");
+            file.write("ENVIRONNEMENT-SCIENCES : " + pEnv + "%\n" +
+                            "CULTURE : " + pCulture + "%\n" +
+                            "ECONOMIE : " + pEconomie + "%\n" +
+                            "POLITIQUE : " + pPolitique + "%\n" +
+                            "SPORTS : " + pSports + "%\n" +
+                            "MOYENNE : " + ((pEnv + pCulture + pEconomie + pPolitique + pSports)/ (float) 5) + "%\n");
 
             file.close();
         } catch (IOException e) {
@@ -119,11 +125,14 @@ public class Classification {
             il apparaît qu’une fois dans la ArrayList retournée. Dans les entiers, les scores sont stockés
             et associés à chaque mot et dans un premier temps, nous initialiserons ce score à 0. */
 
+        ArrayList<String> present = new ArrayList<>();
+
         ArrayList<PaireChaineEntier> resultat = new ArrayList<>();
         for (Depeche depeche : depeches) {
             if (depeche.getCategorie().equalsIgnoreCase(categorie)) {
                 for (String mot : depeche.getMots()) {
-                    if (UtilitairePaireChaineEntier.indicePourChaine(resultat, mot) == -1) {
+                    if (!present.contains(mot)) {
+                        present.add(mot);
                         resultat.add(new PaireChaineEntier(mot, 0));
                     }
                 }
@@ -138,6 +147,7 @@ public class Classification {
             n'est pas dans la catégorie categorie et incrémenté si la dépêche est dans la catégorie categorie. */
 
         int c = 0;
+        dictionnaire.sort(PaireChaineEntier::compareTo);
 
         for (Depeche depeche : depeches){
             for(String mot : depeche.getMots()){
@@ -159,11 +169,11 @@ public class Classification {
     public static int poidsPourScore(int score) {
         /*  Retourne une valeur de poids (1,2 ou 3) en fonction du score */
 
-        if (score <= 1) {
+        if (score <= 0) {
             return 0;
-        } else if (score < 3) {
+        } else if (score < 2) {
             return 1;
-        } else if (score < 6) {
+        } else if (score < 5) {
             return 2;
         } else {
             return 3;
@@ -196,6 +206,8 @@ public class Classification {
 
     public static void main(String[] args) {
 
+        long startTime = System.currentTimeMillis();
+
         //Chargement des dépêches en mémoire
 //        System.out.println("chargement des dépêches");
         ArrayList<Depeche> depeches = lectureDepeches("./test.txt");
@@ -211,12 +223,34 @@ public class Classification {
                                                                         new Categorie("POLITIQUE"),
                                                                         new Categorie("SPORTS")));
 
-        // Génération des lexiques pour chaque catégorie
-        generationLexique(depeches, "ENVIRONNEMENT-SCIENCES", "ENVIRONNEMENT-SCIENCES.txt");
-        generationLexique(depeches, "CULTURE", "CULTURE.txt");
-        generationLexique(depeches, "ECONOMIE", "ECONOMIE.txt");
-        generationLexique(depeches, "POLITIQUE", "POLITIQUE.txt");
-        generationLexique(depeches, "SPORTS", "SPORTS.txt");
+
+        // Génération des lexiques pour chaque catégorie grace a des threads
+
+        ArrayList<Thread> threads = new ArrayList<>();
+
+         threads.add(new Thread(() -> generationLexique(depeches, "ENVIRONNEMENT-SCIENCES", "ENVIRONNEMENT-SCIENCES.txt")));
+         threads.add(new Thread(() -> generationLexique(depeches, "CULTURE", "CULTURE.txt")));
+         threads.add(new Thread(() -> generationLexique(depeches, "ECONOMIE", "ECONOMIE.txt")));
+         threads.add(new Thread(() -> generationLexique(depeches, "POLITIQUE", "POLITIQUE.txt")));
+         threads.add(new Thread(() -> generationLexique(depeches, "SPORTS", "SPORTS.txt")));
+
+//        generationLexique(depeches, "ENVIRONNEMENT-SCIENCES", "ENVIRONNEMENT-SCIENCES.txt");
+//        generationLexique(depeches, "CULTURE", "CULTURE.txt");
+//        generationLexique(depeches, "ECONOMIE", "ECONOMIE.txt");
+//        generationLexique(depeches, "POLITIQUE", "POLITIQUE.txt");
+//        generationLexique(depeches, "SPORTS", "SPORTS.txt");
+
+        for (Thread thread : threads) {
+            thread.start();
+        }
+        for (Thread thread : threads) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
 
         // Initialisation des lexiques pour chaque catégorie à partir des fichiers générée
         categories.get(0).initLexique("./ENVIRONNEMENT-SCIENCES.txt");
@@ -227,6 +261,9 @@ public class Classification {
 
         // Classement des dépêches dans leur categories
         classementDepeches(depeches, categories, "./fichier-sortie.txt");
+
+        long endTime = System.currentTimeMillis();
+        System.out.println("votre saisie a été réalisée en : " + (endTime-startTime) + "ms");
 
 
     }

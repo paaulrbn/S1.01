@@ -34,11 +34,11 @@ public class Categorie {
             while(scanner.hasNextLine()) {
                 String thisLine = scanner.nextLine();
                 int indexSeparator = thisLine.indexOf(':');
-                if (indexSeparator != 0) {
-                    String mot = thisLine.substring(0, indexSeparator);
-                    int force = Integer.parseInt(thisLine.substring(indexSeparator + 1));
-                    lexique.add(new PaireChaineEntier(mot, force));
-                }
+
+                String mot = thisLine.substring(0, indexSeparator);
+                int force = Integer.parseInt(thisLine.substring(indexSeparator + 1));
+                lexique.add(new PaireChaineEntier(mot, force));
+
             }
             scanner.close();
         } catch (IOException e) {
