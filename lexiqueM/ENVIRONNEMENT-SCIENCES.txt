@@ -55,7 +55,6 @@ contaminé:3
 produits:2
 chimiques:3
 toxiques:3
-dangers:3
 nanoparticules:3
 santé:2
 charte:2

@@ -1,4 +1,8 @@
 sport:3
+ligue:3
+championnat:3
+champion:3
+clubs:3
 coupe:3
 match:3
 athlètes:3

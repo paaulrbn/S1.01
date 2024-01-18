@@ -72,9 +72,6 @@ public class Classification {
             for (Depeche depeche : depeches) {
                 ArrayList<PaireChaineEntier> scoreDepeche = new ArrayList<>();
 
-//                for (int i = 0; i < 5; i++) {
-//                    scoreDepeche.add(new PaireChaineEntier(categories.get(i).getNom(), categories.get(i).score(depeche)));
-//                }
 
                 int somme = 0;
                 for (int i = 0; i < 5; i++) {
@@ -83,8 +80,6 @@ public class Classification {
                     somme += scores.get(1);
                 }
                 sommeTotal += (somme/5);
-
-
 
                 String categorieCoresp = UtilitairePaireChaineEntier.chaineMax(scoreDepeche);
 
@@ -202,6 +197,7 @@ public class Classification {
 
         ArrayList<PaireChaineEntier> dictionnaire = initDico(depeches, categorie);
 
+
 //        System.out.println(categorie + " : " + calculScores(depeches, categorie, dictionnaire));
         calculScores(depeches, categorie, dictionnaire);
 
@@ -234,7 +230,7 @@ public class Classification {
         //Chargement des dépêches en mémoire
 //        System.out.println("chargement des dépêches");
         ArrayList<Depeche> depeches = lectureDepeches("./depeches.txt");
-        ArrayList<Depeche> dechechesTest = lectureDepeches("./test.txt");
+        ArrayList<Depeche> depechesTest = lectureDepeches("./test.txt");
 
 
 
@@ -297,7 +293,7 @@ public class Classification {
 
 
         // Classement des dépêches dans leur categories
-        classementDepeches(dechechesTest, categories, "./fichier-sortie.txt");
+        classementDepeches(depechesTest, categories, "./fichier-sortie.txt");
 
         long endTime = System.currentTimeMillis();
         System.out.println("Programme réalisé en : " + (endTime-startTime) + "ms");

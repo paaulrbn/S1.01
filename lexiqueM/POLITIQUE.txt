@@ -63,3 +63,9 @@ président:2
 visite:2
 République:2
 insulte:2
+Assemblée:3
+nationale:3
+députés:3
+Sénat:3
+polémique:2
+gouvernemental:3

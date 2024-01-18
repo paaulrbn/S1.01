@@ -42,6 +42,7 @@ public class Categorie {
 
             }
             scanner.close();
+            lexique.sort(PaireChaineEntier::compareTo);
         } catch (IOException e) {
             e.printStackTrace();
         }
