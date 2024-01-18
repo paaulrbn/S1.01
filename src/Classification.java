@@ -202,8 +202,8 @@ public class Classification {
 
         ArrayList<PaireChaineEntier> dictionnaire = initDico(depeches, categorie);
 
-        System.out.println(categorie + " : " + calculScores(depeches, categorie, dictionnaire));
-//        calculScores(depeches, categorie, dictionnaire);
+//        System.out.println(categorie + " : " + calculScores(depeches, categorie, dictionnaire));
+        calculScores(depeches, categorie, dictionnaire);
 
         try {
             FileWriter file = new FileWriter(nomFichier);
@@ -268,7 +268,7 @@ public class Classification {
             ArrayList<Thread> threads = new ArrayList<>();
 
             // Génération des lexiques pour chaque catégorie grace a des threads
-            System.out.println("Nombre de comparaisons pour calculScores : ");
+//            System.out.println("Nombre de comparaisons pour calculScores : ");
             threads.add(new Thread(() -> generationLexique(depeches, "ENVIRONNEMENT-SCIENCES", "lexiqueA/ENVIRONNEMENT-SCIENCES.txt")));
             threads.add(new Thread(() -> generationLexique(depeches, "CULTURE", "lexiqueA/CULTURE.txt")));
             threads.add(new Thread(() -> generationLexique(depeches, "ECONOMIE", "lexiqueA/ECONOMIE.txt")));
