@@ -48,23 +48,23 @@ public class Categorie {
     }
 
     //calcul du score d'une dépêche pour la catégorie
-    public int score(Depeche d) {
-        /*  Retourne l’entier correspondant au score de la depêche d pour la catégorie sur laquelle l’appel est
+    public ArrayList<Integer> score(Depeche d) {
+        /*  Retourne l’entier correspondant au score de la dépêche d pour la catégorie sur laquelle l’appel est
             réalisé. */
 
         ArrayList<String> mots = d.getMots();
         int score = 0;
-
+        int c = 0;
 
         for (String mot : mots) {
-            for (PaireChaineEntier paireChaineEntier : lexique) {
-                if (mot.equals(paireChaineEntier.getChaine())) {
-                    score += paireChaineEntier.getEntier();
-                }
+            int index = UtilitairePaireChaineEntier.indicePourChaine(lexique, mot);
+            c++;
+            if (index != -1) {
+                score += lexique.get(index).getEntier();
             }
         }
 
-        return score;
-        }
+        return new ArrayList<>(Arrays.asList(score, c));
     }
 
+}

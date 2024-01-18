@@ -68,12 +68,24 @@ public class Classification {
         try {
             FileWriter file = new FileWriter(nomFichier);
 
+            int sommeTotal = 0;
+
             for (Depeche depeche : depeches) {
                 ArrayList<PaireChaineEntier> scoreDepeche = new ArrayList<>();
 
+//                for (int i = 0; i < 5; i++) {
+//                    scoreDepeche.add(new PaireChaineEntier(categories.get(i).getNom(), categories.get(i).score(depeche)));
+//                }
+
+                int somme = 0;
                 for (int i = 0; i < 5; i++) {
-                    scoreDepeche.add(new PaireChaineEntier(categories.get(i).getNom(), categories.get(i).score(depeche)));
+                    ArrayList<Integer> scores = categories.get(i).score(depeche);
+                    scoreDepeche.add(new PaireChaineEntier(categories.get(i).getNom(), scores.get(0)));
+                    somme += scores.get(1);
                 }
+                sommeTotal += (somme/5);
+
+
 
                 String categorieCoresp = UtilitairePaireChaineEntier.chaineMax(scoreDepeche);
 
@@ -93,6 +105,12 @@ public class Classification {
                     }
                 }
             }
+
+            // Affichage du nombre de comparaison moyen de la méthode score
+
+            // System.out.println();
+            // System.out.println("Nombre de comparaison moyenne de la méthode score : " + sommeTotal/500);
+
 
             int pEnv = (int) (( (float) envScience/ nbDepeche(depeches, "ENVIRONNEMENT-SCIENCES"))*100);
             int pCulture = (int) (( (float) culture/ nbDepeche(depeches, "CULTURE"))*100);
@@ -184,7 +202,9 @@ public class Classification {
             résultant pour créer un fichier lexique en utilisant la fonction poidsPourScore. */
 
         ArrayList<PaireChaineEntier> dictionnaire = initDico(depeches, categorie);
+
         System.out.println(categorie + " : " + calculScores(depeches, categorie, dictionnaire));
+//        calculScores(depeches, categorie, dictionnaire);
 
         try {
             FileWriter file = new FileWriter(nomFichier);
@@ -202,6 +222,14 @@ public class Classification {
     }
 
     public static void main(String[] args) {
+
+        // Choix du mode de génération des lexiques
+
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.print("Veuillez saisir 0 pour lexique manuel et 1 pour lexique automatique : ");
+//        int choix = scanner.nextInt();
+
+        int choix = 1;
 
         long startTime = System.currentTimeMillis();
 
@@ -221,47 +249,57 @@ public class Classification {
                                                                         new Categorie("SPORTS")));
 
 
-        // Génération des lexiques pour chaque catégorie grace a des threads
+        if (choix == 0) {
+            // Génération des lexiques manuellement
 
-        ArrayList<Thread> threads = new ArrayList<>();
+            // Initialisation des lexiques pour chaque catégorie à partir des fichiers
+            categories.get(0).initLexique("./ENVIRONNEMENT-SCIENCES.txt");
+            categories.get(1).initLexique("./CULTURE.txt");
+            categories.get(2).initLexique("./ECONOMIE.txt");
+            categories.get(3).initLexique("./POLITIQUE.txt");
+            categories.get(4).initLexique("./SPORTS.txt");
 
-        System.out.println("Nombre de comparaisons pour calculScores : ");
-         threads.add(new Thread(() -> generationLexique(depeches, "ENVIRONNEMENT-SCIENCES", "ENVIRONNEMENT-SCIENCES.txt")));
-         threads.add(new Thread(() -> generationLexique(depeches, "CULTURE", "CULTURE.txt")));
-         threads.add(new Thread(() -> generationLexique(depeches, "ECONOMIE", "ECONOMIE.txt")));
-         threads.add(new Thread(() -> generationLexique(depeches, "POLITIQUE", "POLITIQUE.txt")));
-         threads.add(new Thread(() -> generationLexique(depeches, "SPORTS", "SPORTS.txt")));
 
-        for (Thread thread : threads) {
-            thread.start();
-        }
-        for (Thread thread : threads) {
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        } else if (choix == 1) {
+            // Génération des lexiques automatiquement
+
+            // Création des threads
+            ArrayList<Thread> threads = new ArrayList<>();
+
+            // Génération des lexiques pour chaque catégorie grace a des threads
+            System.out.println("Nombre de comparaisons pour calculScores : ");
+            threads.add(new Thread(() -> generationLexique(depeches, "ENVIRONNEMENT-SCIENCES", "ENVIRONNEMENT-SCIENCES.txt")));
+            threads.add(new Thread(() -> generationLexique(depeches, "CULTURE", "CULTURE.txt")));
+            threads.add(new Thread(() -> generationLexique(depeches, "ECONOMIE", "ECONOMIE.txt")));
+            threads.add(new Thread(() -> generationLexique(depeches, "POLITIQUE", "POLITIQUE.txt")));
+            threads.add(new Thread(() -> generationLexique(depeches, "SPORTS", "SPORTS.txt")));
+
+            for (Thread thread : threads) {
+                thread.start();
             }
+            for (Thread thread : threads) {
+                try {
+                    thread.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            // Initialisation des lexiques pour chaque catégorie à partir des fichiers générée
+            categories.get(0).initLexique("./ENVIRONNEMENT-SCIENCES.txt");
+            categories.get(1).initLexique("./CULTURE.txt");
+            categories.get(2).initLexique("./ECONOMIE.txt");
+            categories.get(3).initLexique("./POLITIQUE.txt");
+            categories.get(4).initLexique("./SPORTS.txt");
         }
 
-//        generationLexique(depeches, "ENVIRONNEMENT-SCIENCES", "ENVIRONNEMENT-SCIENCES.txt");
-//        generationLexique(depeches, "CULTURE", "CULTURE.txt");
-//        generationLexique(depeches, "ECONOMIE", "ECONOMIE.txt");
-//        generationLexique(depeches, "POLITIQUE", "POLITIQUE.txt");
-//        generationLexique(depeches, "SPORTS", "SPORTS.txt");
 
-
-        // Initialisation des lexiques pour chaque catégorie à partir des fichiers générée
-        categories.get(0).initLexique("./ENVIRONNEMENT-SCIENCES.txt");
-        categories.get(1).initLexique("./CULTURE.txt");
-        categories.get(2).initLexique("./ECONOMIE.txt");
-        categories.get(3).initLexique("./POLITIQUE.txt");
-        categories.get(4).initLexique("./SPORTS.txt");
 
         // Classement des dépêches dans leur categories
         classementDepeches(depeches, categories, "./fichier-sortie.txt");
 
         long endTime = System.currentTimeMillis();
-        System.out.println("votre saisie a été réalisée en : " + (endTime-startTime) + "ms");
+//        System.out.println("Programme réalisé en : " + (endTime-startTime) + "ms");
 
 
     }
