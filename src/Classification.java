@@ -180,9 +180,9 @@ public class Classification {
 
         if (score <= 0) {
             return 0;
-        } else if (score < 7) {
+        } else if (score < 3) {
             return 1;
-        } else if (score < 12) {
+        } else if (score < 9) {
             return 2;
         } else {
             return 3;
@@ -283,11 +283,11 @@ public class Classification {
             }
 
             // Initialisation des lexiques pour chaque catégorie à partir des fichiers générée
-            categories.get(0).initLexique("./LexiqueA/ENVIRONNEMENT-SCIENCES.txt");
-            categories.get(1).initLexique("./LexiqueA/CULTURE.txt");
-            categories.get(2).initLexique("./LexiqueA/ECONOMIE.txt");
-            categories.get(3).initLexique("./LexiqueA/POLITIQUE.txt");
-            categories.get(4).initLexique("./LexiqueA/SPORTS.txt");
+            categories.get(0).initLexique("./lexiqueA/ENVIRONNEMENT-SCIENCES.txt");
+            categories.get(1).initLexique("./lexiqueA/CULTURE.txt");
+            categories.get(2).initLexique("./lexiqueA/ECONOMIE.txt");
+            categories.get(3).initLexique("./lexiqueA/POLITIQUE.txt");
+            categories.get(4).initLexique("./lexiqueA/SPORTS.txt");
         }
 
 
